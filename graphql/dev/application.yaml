@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: graphql
+spec:
+  project: ecommerce-platform
+  source:
+    repoURL: https://github.com/LukeMwila/microservice-example-helm-charts.git
+    targetRevision: HEAD
+    path: "application-charts/graphql"
+    helm:
+      valueFiles: ['values-dev.yaml'] # resolved against source.repoURL and source.path
+  destination:
+    server: CLUSTER_API_SERVER_URL
+    namespace: ecommerce
+  syncPolicy:
+    automated:
+      selfHeal: true
